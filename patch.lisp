@@ -29,4 +29,4 @@ The result should be the same as revoking pomo:query."
               (funcall (alexandria:curry #'prepare-query *database* "" (real-query query)) args)
               (exec-prepared *database* "" args (second reader)))
             (exec-query *database* (real-query query) (s-sql::dequote (second reader))))
-      (funcall (lambda () (macroexpand result-form) (values rows affected)))))) ; luckly, result-form is fairy small.
+      (funcall (compile nil `(lambda () (,result-form  (values ',rows ,affected))))))))
